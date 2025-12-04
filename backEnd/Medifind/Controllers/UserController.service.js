@@ -20,19 +20,29 @@ module.exports = {
         // res.json({ data: [{ name: 'ahmed', id: 1 }, { name: 'hambozo', id: 2 }, { name: 'reus', id: 3 }] })
     },
 
-    createUser: async (req, res, next) => {
+  createUser: async (req, res, next) => {
+    try {
         let hashedPassword = await bcrypt.hash(req.body.password, 10)
 
         let user = new User({
+            role: req.body.role,
             name: req.body.name,
             email: req.body.email,
-            password: hashedPassword
+            password: hashedPassword,
+            ssn: req.body.ssn || undefined,
+            phone: req.body.phone || undefined,
+            location: req.body.location,
+            profileImage: req.body.profileImage
         })
 
         await user.save()
-
         res.status(200).json({ message: "user created" })
-    },
+    }
+    catch (err) {
+        next(err)
+    }
+},
+
     userUpdated: async (req, res) => {
         console.log(req.params);
         await userModel.updateOne({ _id: req.params.id }, { $set: req.body })

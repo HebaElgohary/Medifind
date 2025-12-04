@@ -1,81 +1,66 @@
+// main.js
+require("dotenv").config(); // Load environment variables
 const express = require("express");
-const Router = require("./Router/UserRouter.service.js");
-const server = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 
-server.use(cors());
-
+// Import routers
+const userRouter = require("./Router/UserRouter.service.js");
 const medicineRouter = require("./Router/medicineRouter.service.js");
 const requestRouter = require("./Router/requestRouter.service.js");
 const reviewRouter = require("./Router/reviewRouter.service.js");
-server.use(cors());
-mongoose
-  .connect(
-    "mongodb+srv://af6394158:k7CaJle7ibhA1wcW@medifind.zasc3.mongodb.net/MediFind"
-  )
-  .then(async (data) => {
-    console.log("db connected");
-    const collections = await data.connection.db.listCollections().toArray();
-    // console.log(collections);
-    server.listen(7777, () => {
-      console.log("server is running on port 7777");
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
 
-// Handle server middleware
+const server = express();
 
-// $1-middleware   // Allow all origins
+// ---------- Middleware ----------
 
-// Incorrect way (current)
-server.use((req, res, next) => {
-  cors({
-    exposedHeaders: ["x-auth-token"],
-  });
-  console.log("logging Mw 1");
-  next();
-});
-
-// Correct way
+// CORS setup
 server.use(
   cors({
+    origin: "*", // بعد ما ترفع الفرونت للـ Netlify ممكن تحطي URL الفرانت هنا بدل "*"
     exposedHeaders: ["x-auth-token"],
   })
 );
 
-server.use((req, res, next) => {
-  console.log("logging Mw 1");
-  next();
-});
-
-// $2-middleware
-server.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.header("Access-Control-Expose-Headers", "x-auth-token"); // Expose x-auth-token
-  next();
-});
-
-// $3-body parser
+// Body parser
 server.use(express.json());
 
-// $4- Routing middleware
-server.use(Router);
+// Logging middleware (اختياري)
+server.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
+// ---------- Routes ----------
+server.use(userRouter);
 server.use(medicineRouter);
 server.use(requestRouter);
 server.use(reviewRouter);
 
-// $5-middleware
+// ---------- 404 handler ----------
 server.use((req, res, next) => {
   res.status(404).send("Not Found");
-  next();
 });
 
-// $6-middleware
-server.use((error, req, res, next) => {
-  res.status(error.status || 500).json({ data: "error accrued " + error });
-  next();
+// ---------- Error handler ----------
+server.use((err, req, res, next) => {
+  console.error(err);
+  res.status(err.status || 500).json({ error: err.message || "Server Error" });
 });
+
+// ---------- DB connection and server start ----------
+const PORT = process.env.PORT || 7777;
+
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(async (data) => {
+    console.log("✅ Database connected");
+    const collections = await data.connection.db.listCollections().toArray();
+    console.log("Collections:", collections.map(c => c.name));
+    server.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("❌ DB connection error:", err);
+  });

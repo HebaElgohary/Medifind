@@ -10,10 +10,11 @@ const RegisterSchema = {
         location: { type: 'string' },
         ssn: { type: 'number' },
         phone: { type: 'number' },
+        role:{type:'string'}
         
 
     },
-    required: ['name', 'email', 'password',],
+    required: ['name', 'email', 'password','role'],
     additionalProperties: false
 }
 ajv.compile(RegisterSchema)

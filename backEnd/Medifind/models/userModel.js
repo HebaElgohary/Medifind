@@ -4,7 +4,8 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ["admin", "user", "doctor"],
-        default: "user"
+        required: true,
+        default:'user'
     },
     name: {
         type: String,
@@ -34,32 +35,32 @@ const userSchema = new mongoose.Schema({
             message: 'Invalid email format'
         }
     },
-    location: String,
+    location: {
+        type: String
+    },
     ssn: {
-        type: Number,
-        unique: true,
-        minlength: 14,
+        type: String,
         validate: {
             validator: (value) => {
-                return /^\d{14}$/.test(value)
+                // allow optional
+                return !value || /^\d{14}$/.test(value);
             },
-            message: 'Invalid SSN format'
+            message: 'SSN must be 14 digits'
         }
     },
     phone: {
-        type: Number,
-        unique: true,
-        minlength: 10,
+        type: String,
+        // unique: true,
         validate: {
             validator: (value) => {
-                return /^\d{10}$/.test(value)
+                // allow optional
+                return !value || /^\d{10}$/.test(value)
             },
             message: 'Invalid phone number format'
         }
     },
-     profileImage: {
+    profileImage: {
         type: String,
-        // required: true
     },
 }, { collection: 'Users' })
 
