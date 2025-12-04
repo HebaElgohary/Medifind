@@ -1,0 +1,92 @@
+.sidebar {
+  display: flex;
+  justify-content: center;
+
+  align-items: center;
+}
+
+
+
+.sidebar a {
+  text-decoration: none;
+  color: #030303 !important;
+  font-size: large;
+  transition: color 0.3s, background-color 0.3s;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+
+.sidebar a:hover {
+  color: #01b3bd !important;
+}
+
+.sidebar .active-link {
+  color: #01b3bd !important;
+  text-decoration: none;
+}
+
+/* Review Section */
+.review {
+  display: flex;
+  justify-content: center;
+  margin-right:250px;
+  align-items: center;
+}
+
+
+
+.review a {
+  text-decoration: none;
+  color: #030303 !important;
+  font-size: large;
+  transition: color 0.3s, background-color 0.3s;
+  border-radius: 5px;
+  margin-right: 20px;
+  padding: 0px 30px;
+}
+
+.review a:hover {
+  color: #01b3bd !important;
+}
+
+.review .active-link {
+  color: #01b3bd !important;
+  text-decoration: none;
+}
+
+/* User Icon */
+.user-icon {
+  width: 40px;
+  height: 40px;
+  background-color: #26cac7;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Logout Button */
+.logout {
+  margin-left: 15px;
+}
+
+
+.logout button {
+  background-color: transparent;
+  color: #0c0c0c;
+  border: none;
+  font-size: large;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.logout button:hover {
+  color: red;
+  background-color: transparent;
+}
+
+

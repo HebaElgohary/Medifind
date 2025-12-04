@@ -1,0 +1,37 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Yellowtail&display=swap");
+
+:root {
+  --main-color: #01b3bd;
+  --secondary-color: #2837387e;
+  --Dark-Violet: hsl(260, 44%, 11%);
+  --gray: rgb(171,173, 173) ; 
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.text-brand {
+  font-family: "Yellowtail", serif !important;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.text-gray{
+  color: var(--gray) !important;
+}
