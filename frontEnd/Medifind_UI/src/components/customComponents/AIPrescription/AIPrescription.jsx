@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './AIPrescription.module.css';
- const GITHUB_PAT = "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";
+//  const GITHUB_PAT = "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";
 import { FaRobot } from 'react-icons/fa';
 export function AIPrescription({ medicineName, concentration }) {
   const [prescription, setPrescription] = useState('');
@@ -26,7 +26,7 @@ export function AIPrescription({ medicineName, concentration }) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "api-key": GITHUB_PAT,
+            "api-key": 'GITHUB_PAT',
           },
           body: JSON.stringify({
             model: "gpt-4.1",
