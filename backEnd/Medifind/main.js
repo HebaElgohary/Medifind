@@ -17,7 +17,7 @@ const server = express();
 // CORS setup
 server.use(
   cors({
-    origin: "*", // بعد ما ترفع الفرونت للـ Netlify ممكن تحطي URL الفرانت هنا بدل "*"
+    origin: "https://medifindui.netlify.app", // بعد ما ترفع الفرونت للـ Netlify ممكن تحطي URL الفرانت هنا بدل "*"
     exposedHeaders: ["x-auth-token"],
   })
 );
