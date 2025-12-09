@@ -1,0 +1,34 @@
+.custom-modal .modal-content {
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  border: none;
+}
+
+.custom-modal .modal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.custom-modal .modal-header .btn-close {
+  color: white;
+  opacity: 1;
+}
+
+.custom-modal .modal-header .btn-close:hover {
+  opacity: 0.8;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.custom-modal.show .modal-content {
+  animation: slideIn 0.3s ease-out;
+}

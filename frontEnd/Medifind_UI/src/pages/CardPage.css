@@ -1,0 +1,333 @@
+.card-page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  
+}
+
+/* Tab control styling */
+
+.tab-control {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+ /*  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05),
+    0 0 15px rgba(0, 112, 243, 0.08); */
+  padding: 0.4rem;
+  position: relative;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  z-index: 10;
+}
+
+.tab-button {
+  cursor: pointer;
+  padding-block: .5rem;
+  padding-inline: 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #2c3e50;
+  position: relative;
+  transition: all 0.3s ease;
+  text-align: center;
+  
+  overflow: hidden;
+}
+
+.tab-button span {
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.tab-button:hover span {
+  transform: translateY(-3px);
+}
+
+.tab-button.active {
+  color: #fff;
+}
+
+.tab-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    #00dfd8 0%,
+    #0070f3 45%,
+    #01b3bd 85%
+  );
+  background-size: 300% auto;
+  border-radius: 15px;
+  transform: translateY(100%);
+  transition: transform 0.4s
+    cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 1;
+}
+
+.tab-button.active::before {
+  transform: translateY(0);
+  animation: gradientMove 5s ease infinite alternate;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.tab-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    #00dfd8,
+    #0070f3,
+    #01b3bd
+  );
+  transition: width 0.3s ease;
+  border-radius: 10px;
+  opacity: 0;
+}
+
+.tab-button.active .tab-indicator {
+  width: 50%;
+  opacity: 1;
+}
+
+/* Content styling */
+.tab-content {
+  position: relative;
+  min-height: 300px;
+  margin-top: 2rem;
+}
+
+/* Fix for tab pane visibility */
+.tab-pane {
+  display: none;
+}
+
+.tab-pane:not(.fade-out) {
+  display: block;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Section title styling */
+.section-title {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  background: linear-gradient(
+    135deg,
+    #00dfd8 0%,
+    #0070f3 50%,
+    #01b3bd 70%
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientText 6s ease infinite alternate;
+  position: relative;
+  letter-spacing: -0.02em;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    #00dfd8,
+    #0070f3,
+    #7928ca,
+    #ff3d00
+  );
+  background-size: 300% 100%;
+  animation: gradientMove 4s linear infinite;
+  border-radius: 30px;
+}
+
+@keyframes gradientText {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Empty state styling */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 24px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1),
+    0 0 15px rgba(0, 112, 243, 0.05);
+  margin: 2rem auto;
+  max-width: 600px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  animation: float 5s ease-in-out infinite;
+}
+
+.empty-state h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.empty-state p {
+  font-size: 1.1rem;
+  color: #6c757d;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .tab-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .empty-state {
+    padding: 3rem 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .tab-control {
+    margin-bottom: 1.8rem;
+    padding: 0.3rem;
+    border-radius: 12px;
+  }
+
+  .tab-button {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+    border-radius: 10px;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+  }
+
+  .empty-icon {
+    font-size: 3rem;
+  }
+
+  .empty-state h3 {
+    font-size: 1.4rem;
+  }
+
+  .empty-state p {
+    font-size: 1rem;
+  }
+}
+
+/* Add styling for loading spinner */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  padding: 2rem;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 5px solid rgba(30, 150, 148, 0.1); /* Light teal background */
+  border-radius: 50%;
+  border-top-color: #2aa0e9; /* Main teal color */
+  border-left-color: #13c3a6; /* Dark background color */
+  border-right-color: #1E9694; /* Main teal color */
+  animation: spin 1.5s linear infinite;
+  margin-bottom: 1.5rem;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner p {
+  color: #1E252B;
+  font-size: 1.2rem;
+  font-weight: 500;
+  background: linear-gradient(
+    135deg,
+    #1E9694 0%,
+    #6194c2 50%,
+    #2aa0e9 100%
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientText 4s ease infinite alternate;
+}
