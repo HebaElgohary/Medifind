@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import styles from "./home.module.css"
+import styles from "./Home.module.css"
 import {AddBtn} from "../../components/customComponents/Addbtn"
 import { Post } from "../../components/customComponents/Post/Post";
-import { Loader } from "../../components/customComponents/Loader/Loader";
-import { useEffect, useState, useCallback } from "react";
+import {  useState, useCallback } from "react";
 import { FaSearch } from 'react-icons/fa';
 import giftBox from '../../assets/gift-box.png';
 
@@ -59,7 +58,7 @@ export function Home() {
             </h1>
             <p className={styles.description}>
               Every donated pill is a beacon of hope for someone in need. Join us in our mission to provide essential medicines to underserved 
-              communities. By giving the gift of health, you're offering more than just medicine - you're offering a chance at a healthier, 
+              communities. By giving the gift of health, you&apos;re offering more than just medicine - you&apos;re offering a chance at a healthier, 
               brighter future. Donate today and become a vital part of our healing mission.
             </p>
             <AddBtn className={styles.donateButton} onClick={goToAddMedicine}>
