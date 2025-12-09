@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 import { useState } from "react";
 import { Container, Row, Col, Form, Card } from "react-bootstrap";
 import { FaPlus } from "react-icons/fa";

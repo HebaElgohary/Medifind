@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 import { useState } from "react";
 import { Form, Container, Row, Col } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";

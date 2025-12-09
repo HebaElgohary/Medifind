@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './AIPrescription.module.css';
-import { GITHUB_PAT } from '../../../config.js';
+ const GITHUB_PAT = "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";
 import { FaRobot } from 'react-icons/fa';
 export function AIPrescription({ medicineName, concentration }) {
   const [prescription, setPrescription] = useState('');

@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 const Url = import.meta.env.VITE_BASE_URL;
 
 import { useEffect } from "react";
