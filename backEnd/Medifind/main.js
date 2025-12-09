@@ -49,7 +49,7 @@ server.use((err, req, res, next) => {
 });
 
 // ---------- DB connection and server start ----------
-const PORT = process.env.PORT || 7777;
+const PORT = process.env.PORT || 8080;
 
 mongoose
   .connect(process.env.MONGO_URI)
