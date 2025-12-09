@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
+const Url = import.meta.env.VITE_BASE_URL;
+
 import { useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import {  Row, Col } from "react-bootstrap";
 import { CardDonation } from "../components/customComponents/CardDonation.jsx";
 import { AddBtn } from "../components/customComponents/Addbtn";
-import { BASE_URL } from "../config.js";
 import { useNavigate } from "react-router-dom";
 import { useDecoded } from "../customHooks/useDecode";
 import { useGet } from "../customHooks/useGet.js";
@@ -13,7 +14,6 @@ import "./CardPage.css";
 
 export const DonorPage = () => {
   const navigate = useNavigate();
-  const Url = BASE_URL;
   // Fix the update function to return a callback
   const goToUpdateMedicine = (_id, name, image, quantity, date, concentration) => () => {
     navigate(`/UpdateMedicine/${_id}`, {

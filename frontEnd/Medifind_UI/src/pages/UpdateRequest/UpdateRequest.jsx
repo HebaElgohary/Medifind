@@ -7,9 +7,8 @@ import { AddBtn } from "../../components/customComponents/Addbtn";
 import useMedicineForm from "../../customHooks/RequestMedicine";  
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDecoded } from "../../customHooks/useDecode";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaCheckCircle } from "react-icons/fa";
-import { BASE_URL } from "../../config.js";
+
+const BASE_URL  = import.meta.env.VITE_BASE_URL;
 import { Loader } from "../../components/customComponents/Loader/Loader";
 
 

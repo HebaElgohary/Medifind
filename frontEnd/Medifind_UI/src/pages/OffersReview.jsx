@@ -2,7 +2,7 @@
 import  { useEffect, useState } from "react";
 import { Container, Spinner } from "react-bootstrap";
 import MedicineCard from "../components/customComponents/MedicineCard"; 
-import { BASE_URL } from "../config.js";
+const BASE_URL  = import.meta.env.VITE_BASE_URL;
 import image1 from "../assets/img1.jpg";
 import { FaUser } from 'react-icons/fa';
 

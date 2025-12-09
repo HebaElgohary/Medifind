@@ -4,7 +4,7 @@ import { Container, Card, Form } from "react-bootstrap";
 import "../../styles/registerStyle.css";
 import { Link, useNavigate } from "react-router-dom";
 import { AddBtn } from "../customComponents/Addbtn";
-import { BASE_URL } from "../../config.js";
+const BASE_URL  = import.meta.env.VITE_BASE_URL;
 
 
 

@@ -1,10 +1,9 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import {React,useState} from "react";
 import { Card, Button } from "react-bootstrap";
-import { AddBtn } from "./Addbtn";
-import { BASE_URL } from "../../config.js";
+const BASE_URL  = import.meta.env.VITE_BASE_URL;
+ 
 const MedicineCard = ({ 
   image, 
   name, 

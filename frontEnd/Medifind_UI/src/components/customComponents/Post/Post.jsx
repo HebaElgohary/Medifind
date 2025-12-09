@@ -4,7 +4,7 @@ import styles from "./Post.module.css";
 import { useFetch } from "../../../customHooks/useFetch";
 import { SlideDown } from "../SlideDown/SlideDown";
 import { useEffect } from "react";
-import { BASE_URL } from "../../../config.js";
+const BASE_URL  = import.meta.env.VITE_BASE_URL;
 export function Post({page, getTotalPage, searchQuery}) {
     const apiUrl = searchQuery 
         ? `${BASE_URL}/search?query=${searchQuery}&page=${page}&limit=6`

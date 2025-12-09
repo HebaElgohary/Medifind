@@ -11,7 +11,7 @@ import { Loader } from "../../components/customComponents/Loader/Loader";
 import { FaUserCircle } from "react-icons/fa";
 import "../CardPage.css";
 
-import { BASE_URL } from "../../config.js";
+const BASE_URL  = import.meta.env.VITE_BASE_URL;
 
 export const CompleteProfile = () => {
   const navigate = useNavigate();

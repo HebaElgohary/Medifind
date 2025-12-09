@@ -9,7 +9,7 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import "../CardPage.css";
 
-import { BASE_URL } from "../../config.js";
+const BASE_URL  = import.meta.env.VITE_BASE_URL;
 
 export default function UpdateMedicine() {
   const navigate = useNavigate();

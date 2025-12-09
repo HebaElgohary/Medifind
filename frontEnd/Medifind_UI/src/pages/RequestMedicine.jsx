@@ -11,7 +11,7 @@ import { useDecoded } from "../customHooks/useDecode";
 import { Loader } from "../components/customComponents/Loader/Loader";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BASE_URL } from "../config.js";
+const BASE_URL  = import.meta.env.VITE_BASE_URL;
 import { useFetch } from "../customHooks/useFetch";
 
 export const RequestMedicine = () => {

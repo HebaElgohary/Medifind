@@ -7,7 +7,7 @@ import { useFetch } from "../../customHooks/useFetch";
 import { useDecoded } from "../../customHooks/useDecode";
 import "../../styles/navstyle.css";
 import "../../styles/sidebar.css";
-import { BASE_URL } from "../../config.js";
+const BASE_URL  = import.meta.env.VITE_BASE_URL;
 import { useEffect } from "react";
 
 export const NavBar = () => {

@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { usePost } from "../../../customHooks/usePost";
 import { useDecoded } from "../../../customHooks/useDecode";
 import { FaUser, FaCapsules, FaClock } from "react-icons/fa";
-import { BASE_URL } from "../../../config.js";
+const BASE_URL  = import.meta.env.VITE_BASE_URL;
 import { AIPrescription } from "../AIPrescription/AIPrescription";
 
 export function SlideDown({ Medicine }) {

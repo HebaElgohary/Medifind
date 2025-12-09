@@ -10,8 +10,7 @@ import { AddBtn } from "../components/customComponents/Addbtn";
 import { Loader } from "../components/customComponents/Loader/Loader";
 import { useAddMedicineForm } from "../customHooks/AddMedicine";
 import { useDecoded } from "../customHooks/useDecode";
-import { BASE_URL } from "../config.js";
-// import { useGet } from "../customHooks/useGet";
+const BASE_URL  = import.meta.env.VITE_BASE_URL;
 import { useFetch } from "../customHooks/useFetch";
 
 

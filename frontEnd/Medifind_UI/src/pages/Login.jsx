@@ -15,7 +15,7 @@ import {
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 import logo from "../assets/medi3.png";
-import { BASE_URL } from "../config.js";
+const BASE_URL  = import.meta.env.VITE_BASE_URL;
 // Environment variables in React are accessed through process.env
 export function Login() {
   const baseUrl = BASE_URL;
