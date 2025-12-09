@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './AIPrescription.module.css';
 import { FaRobot } from 'react-icons/fa';
-export function AIPrescription({ medicineName, concentration }) {
+export function AIPrescription({ }) {
   // const [prescription, setPrescription] = useState('');
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);

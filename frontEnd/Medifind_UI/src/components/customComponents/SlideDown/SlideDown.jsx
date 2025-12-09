@@ -96,8 +96,7 @@ export function SlideDown({ Medicine }) {
           <div className={styles.userName}>{Medicine.user_id?.name}</div>
           <div className={styles.aiPrescriptionButton}>
             <AIPrescription
-              medicineName={Medicine.name}
-              concentration={Medicine.concentration}
+           
             />
           </div>
         </div>
