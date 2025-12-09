@@ -11,7 +11,7 @@ import "./CardPage.css";
 export const CardPage = () => {
 
   
-  const baseUrl = BASE_URL;
+  
   
   const [requests, setRequests] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -20,8 +20,8 @@ export const CardPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const decodedToken = useDecoded();
-  const req_Url = `${baseUrl}/request`;
-  const order_Url =`${baseUrl}/orders`;
+  const req_Url = `${BASE_URL}/request`;
+  const order_Url =`${BASE_URL}/orders`;
 
   // Initialize delete hooks for each endpoint at the top level.
   const requestDelete = useDelete(req_Url);

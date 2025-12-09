@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-import { Navbar, Container, Nav, Spinner, Button } from "react-bootstrap";
+import { Navbar, Container, Nav, Spinner } from "react-bootstrap";
 import { useNavigate, NavLink } from "react-router-dom";
 import logo from "../../assets/medi3.png";
 import { useFetch } from "../../customHooks/useFetch";
@@ -17,7 +17,7 @@ export const NavBar = () => {
   const loggedInUserId = decodedToken?.id;
   console.log(loggedInUserId);
   // Only fetch user data if we have a user ID
-  const { data: user, isLoading, serverError } = useFetch(loggedInUserId ? `${baseUrl}/user/${loggedInUserId}` : null);
+  const { data: user, isLoading } = useFetch(loggedInUserId ? `${baseUrl}/user/${loggedInUserId}` : null);
   
   // Extract user data - handle both array and object responses
   const userData = Array.isArray(user) && user.length > 0 ? user[0] : user;
