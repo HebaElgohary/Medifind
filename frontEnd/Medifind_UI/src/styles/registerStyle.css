@@ -1,0 +1,67 @@
+/* ✅ Success (Valid Input) */
+.valid {
+  color: green;
+  font-size: 1.2rem;
+  margin-left: 5px;
+}
+
+/* ❌ Error (Invalid Input) */
+.invalid {
+  color: red;
+  font-size: 1.2rem;
+  margin-left: 5px;
+}
+
+/* 🚫 Hide Elements */
+.hide {
+  display: none;
+}
+
+/* 🛑 Offscreen (For Accessibility) */
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
+/* ℹ️ Instructions for Inputs */
+.instructions {
+  font-size: 0.9rem;
+  /* color: #555; */
+  color: red;
+  /* background: #e261587e; */
+  padding: 8px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/* 🔴 Error Message */
+.errmsg {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* ✅ Success Message */
+.successmsg {
+  color: green;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+a {
+  font-size: larger;
+}
+
+input::placeholder {
+  color: #7d7f7f !important;
+  font-size: 14px !important;
+}
+
+.form-control:focus {
+  border-color: #01b3bd !important;
+  box-shadow: none !important;
+}
+.form-label {
+  font-weight: 500 !important;
+}

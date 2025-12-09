@@ -1,0 +1,162 @@
+.aiContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.generateButton {
+  background: none;
+  border: none;
+  color: #00B5B5;
+  cursor: pointer;
+  padding: 5px;
+  transition: transform 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.generateButton:hover {
+  transform: scale(1.1);
+}
+
+.generateButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.prescriptionPopup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 90%;
+  max-width: 320px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.closeButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  color: #666;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.closeButton:hover {
+  background: #f3f4f6;
+  color: #00B5B5;
+}
+
+.prescriptionBox {
+  font-size: 14px;
+}
+
+.prescriptionBox h4 {
+  color: #00B5B5;
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  padding-right: 24px;
+}
+
+.prescriptionContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: calc(80vh - 100px);
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.prescriptionContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.prescriptionContent::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.prescriptionContent::-webkit-scrollbar-thumb {
+  background: #00B5B5;
+  border-radius: 3px;
+}
+
+.prescriptionContent::-webkit-scrollbar-thumb:hover {
+  background: #009595;
+}
+
+.prescriptionLine {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.5;
+}
+
+.bulletPoint {
+  color: #00B5B5;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #4a5568;
+  font-size: 14px;
+}
+
+.loadingSpinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e2e8f0;
+  border-top: 2px solid #00B5B5;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.prescriptionBox h4 {
+  color: var(--main-color);
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.prescriptionBox p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #495057;
+}
