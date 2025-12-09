@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { Loader } from '../../components/customComponents/Loader/Loader'
 import { useLocation, useParams } from 'react-router-dom'
 import { Form, Card, Container } from 'react-bootstrap';
@@ -9,7 +9,7 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import "../CardPage.css";
 
-import { BASE_URL } from "../../config";
+import { BASE_URL } from "../../config.js";
 
 export default function UpdateMedicine() {
   const navigate = useNavigate();
@@ -61,7 +61,7 @@ export default function UpdateMedicine() {
     setNumPieces,
     setExpireDate,
     setConcentration,
-    setImage,
+    
     validateForm,
   } = useAddMedicineForm();
   // Initialize form values with passed state

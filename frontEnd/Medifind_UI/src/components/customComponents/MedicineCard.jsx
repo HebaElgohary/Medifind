@@ -4,7 +4,7 @@
 import {React,useState} from "react";
 import { Card, Button } from "react-bootstrap";
 import { AddBtn } from "./Addbtn";
-import { BASE_URL } from "../../config";
+import { BASE_URL } from "../../config.js";
 const MedicineCard = ({ 
   image, 
   name, 

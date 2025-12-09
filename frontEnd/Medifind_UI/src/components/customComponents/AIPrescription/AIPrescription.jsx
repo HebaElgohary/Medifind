@@ -1,44 +1,13 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import styles from './AIPrescription.module.css';
-import { GITHUB_PAT } from '../../../config';
+import { GITHUB_PAT } from '../../../config.js';
 import { FaRobot } from 'react-icons/fa';
 export function AIPrescription({ medicineName, concentration }) {
   const [prescription, setPrescription] = useState('');
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  // const generatePrescription = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const response = await fetch('https://models.inference.ai.azure.com/chat/completions', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
-  //       },
-  //       body: JSON.stringify({
-  //         model: "gpt-3.5-turbo",
-  //         messages: [{
-  //           role: "system",
-  //           content: "You are a helpful medical assistant that generates simplified drug prescriptions. Keep responses concise and focus on basic dosage and usage information."
-  //         }, {
-  //           role: "user",
-  //           content: `Generate a simple prescription for ${medicineName} ${concentration}. Include basic dosage and usage information.`
-  //         }],
-  //         max_tokens: 150,
-  //         temperature: 0.7
-  //       })
-  //     });
-
-  //     const data = await response.json();
-  //     setPrescription(data.choices[0].message.content);
-  //   } catch (error) {
-  //     console.error('Error generating prescription:', error);
-  //     setPrescription('Failed to generate prescription. Please try again.');
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const formatPrescription = (text) => {
     // Split the text into lines and clean them up
@@ -102,7 +71,6 @@ export function AIPrescription({ medicineName, concentration }) {
       setLoading(false);
     }
   };
-
   return (
     <div className={styles.aiContainer}>
       <button 
@@ -142,3 +110,8 @@ export function AIPrescription({ medicineName, concentration }) {
     </div>
   );
 }
+
+AIPrescription.propTypes = {
+  medicineName: PropTypes.string.isRequired,
+  concentration: PropTypes.string.isRequired
+};

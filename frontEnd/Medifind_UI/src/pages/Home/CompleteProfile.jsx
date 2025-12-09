@@ -11,7 +11,7 @@ import { Loader } from "../../components/customComponents/Loader/Loader";
 import { FaUserCircle } from "react-icons/fa";
 import "../CardPage.css";
 
-import { BASE_URL } from "../../config";
+import { BASE_URL } from "../../config.js";
 
 export const CompleteProfile = () => {
   const navigate = useNavigate();

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDecoded } from "../customHooks/useDecode";
 import { useDelete } from "../customHooks/useDelete";
 import { CardNeeds } from "../components/customComponents/CardNeeds";
-import { BASE_URL } from "../config";
+import { BASE_URL } from "../config.js";
 import "./CardPage.css";
 
 export const CardPage = () => {

@@ -4,7 +4,7 @@ import styles from "./Post.module.css";
 import { useFetch } from "../../../customHooks/useFetch";
 import { SlideDown } from "../SlideDown/SlideDown";
 import { useEffect } from "react";
-import { BASE_URL } from "../../../config";
+import { BASE_URL } from "../../../config.js";
 export function Post({page, getTotalPage, searchQuery}) {
     const apiUrl = searchQuery 
         ? `${BASE_URL}/search?query=${searchQuery}&page=${page}&limit=6`

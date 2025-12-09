@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { CardDonation } from "../components/customComponents/CardDonation.jsx";
 import { AddBtn } from "../components/customComponents/Addbtn";
-import { BASE_URL } from "../config";
+import { BASE_URL } from "../config.js";
 import { useNavigate } from "react-router-dom";
 import { useDecoded } from "../customHooks/useDecode";
 import { useGet } from "../customHooks/useGet.js";

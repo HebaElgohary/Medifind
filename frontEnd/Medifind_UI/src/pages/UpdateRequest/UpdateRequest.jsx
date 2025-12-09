@@ -9,7 +9,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDecoded } from "../../customHooks/useDecode";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaCheckCircle } from "react-icons/fa";
-import { BASE_URL } from "../../config";
+import { BASE_URL } from "../../config.js";
 import { Loader } from "../../components/customComponents/Loader/Loader";
 
 
@@ -25,11 +25,7 @@ export const UpdateRequest = () => {
   console.log("URL:", url);
   const navigate = useNavigate();
   const decodedToken = useDecoded();
-  // Check if essential data is available
-  if (!request_id || !url) {
-    return <div>Error: Missing required update information.</div>;
-  }
-  
+    
   const req_Url = `${BASE_URL}/request`;
   const order_Url = `${BASE_URL}/orders`;
   
@@ -45,6 +41,11 @@ export const UpdateRequest = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  // Check if essential data is available
+  if (!request_id || !url) {
+    return <div>Error: Missing required update information.</div>;
+  }
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -7,7 +7,7 @@ import { useFetch } from "../../customHooks/useFetch";
 import { useDecoded } from "../../customHooks/useDecode";
 import "../../styles/navstyle.css";
 import "../../styles/sidebar.css";
-import { BASE_URL } from "../../config";
+import { BASE_URL } from "../../config.js";
 import { useEffect } from "react";
 
 export const NavBar = () => {

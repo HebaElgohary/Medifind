@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Container,  Button, Card, Spinner } from "react-bootstrap";
 
 import { FaUser } from "react-icons/fa";
-import { BASE_URL } from "../config";
+import { BASE_URL } from "../config.js";
 
 
 import "./RequestsReview.css";
