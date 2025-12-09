@@ -9,7 +9,7 @@ import { usePost } from "../../../customHooks/usePost";
 import { useDecoded } from "../../../customHooks/useDecode";
 import { FaUser, FaCapsules, FaClock } from "react-icons/fa";
 const BASE_URL  = import.meta.env.VITE_BASE_URL;
-import { AIPrescription } from "../AIPrescription/AIPrescription";
+// import { AIPrescription } from "../AIPrescription/AIPrescription";
 
 export function SlideDown({ Medicine }) {
   const IconComponent = FaUser;
@@ -95,9 +95,7 @@ export function SlideDown({ Medicine }) {
           </div>
           <div className={styles.userName}>{Medicine.user_id?.name}</div>
           <div className={styles.aiPrescriptionButton}>
-            <AIPrescription
-           
-            />
+            {/* <AIPrescription /> */}
           </div>
         </div>
 
