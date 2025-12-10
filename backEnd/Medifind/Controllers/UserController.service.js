@@ -49,23 +49,41 @@ module.exports = {
 
         res.status(200).json({ message: "user updated" })
     },
-    getSpecificUser: async (req, res, next) => {
-        try {
-            const user = await userModel.findOne({ email: req.body.email })
-            console.log(user);
-            if (!user) {
-                throw new Error('user not found')
-            }
-            let token = jwt.sign({ id: user._id, role: user.role }, 'secret')
-            res.status(200)
-            res.header('x-auth-token', token)
-            res.json({ msg: "logged in successfully" })
-        }
-        catch (err) {
-            next(err)
+ getSpecificUser: async (req, res, next) => {
+    try {
+        const user = await userModel.findOne({ email: req.body.email });
+
+        if (!user) {
+            return res.status(400).json({ msg: "User not found" });
         }
 
-    },
+        const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
+        if (!isPasswordValid) {
+            return res.status(400).json({ msg: "Invalid password" });
+        }
+
+        const token = jwt.sign(
+            { id: user._id, role: user.role },
+            'secret',
+            { expiresIn: "7d" }
+        );
+
+        res.status(200).json({
+            msg: "logged in successfully",
+            token: token,
+            user: {
+                id: user._id,
+                role: user.role,
+                email: user.email,
+                name: user.name
+            }
+        });
+
+    } catch (err) {
+        next(err);
+    }
+}
+,
     getUser: (req, res, next) => {
         userModel.find({ _id: req.params.id })
             .then((users) => {
