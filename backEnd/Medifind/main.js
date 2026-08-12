@@ -1,7 +1,7 @@
-require("dotenv").config();
-
 const express = require("express");
 const cors = require("cors");
+
+const connectDB = require("./lib/db");
 
 const userRouter = require("./Router/UserRouter.service.js");
 const medicineRouter = require("./Router/medicineRouter.service.js");
@@ -13,7 +13,6 @@ const server = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://medifindui.netlify.app",
-  // هنضيف Vercel frontend هنا بعد ما نعرف الـ URL
 ];
 
 server.use(
@@ -24,6 +23,19 @@ server.use(
 );
 
 server.use(express.json());
+
+server.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    console.error("❌ Database connection failed:", error);
+
+    res.status(500).json({
+      error: "Database connection failed",
+    });
+  }
+});
 
 server.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
