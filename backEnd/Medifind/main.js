@@ -13,6 +13,7 @@ const server = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://medifindui.netlify.app",
+  'https://medifind-front.vercel.app'
 ];
 
 server.use(
