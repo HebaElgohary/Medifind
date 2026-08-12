@@ -89,7 +89,7 @@ export const SignUp = () => {
           {/* Image Section with CTA */}
           <div className={styles.imageSection}>
             <div className={styles.imageQuote}>
-              <div className={styles.quoteIcon}>"</div>
+              <div className={styles.quoteIcon}></div>
               <h3>Making healthcare accessible to everyone</h3>
               <p>
                 Join thousands of users who are already making a difference by 
