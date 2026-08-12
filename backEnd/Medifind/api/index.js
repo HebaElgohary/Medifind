@@ -4,7 +4,7 @@ const server = require("../main");
 let isConnected = false;
 
 async function connectDB() {
-  if (isConnected) {
+  if (isConnected && mongoose.connection.readyState === 1) {
     return;
   }
 
@@ -12,7 +12,7 @@ async function connectDB() {
 
   isConnected = true;
 
-  console.log("✅ Database connected");
+  console.log("✅ MongoDB connected");
 }
 
 module.exports = async (req, res) => {
