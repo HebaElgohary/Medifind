@@ -5,6 +5,9 @@ import { Post } from "../../components/customComponents/Post/Post";
 import {  useState, useCallback } from "react";
 import { FaSearch } from 'react-icons/fa';
 import giftBox from '../../assets/gift-box.png';
+// import { useFetch } from "../../customHooks/useFetch";
+import { useDecoded } from "../../customHooks/useDecode";
+// const BASE_URL  = import.meta.env.VITE_BASE_URL;
 
 export function Home() {
   const [page, setPage] = useState(1);
@@ -12,6 +15,12 @@ export function Home() {
   const [searchTimeout, setSearchTimeout] = useState(null);
   const [totalPage, setTotalPage] = useState(1);
   const navigate = useNavigate();
+    const decodedToken = useDecoded();
+    const loggedInUserId = decodedToken?.id;
+    console.log(loggedInUserId);
+  // const baseUrl = BASE_URL;
+
+  // const { data: user, isLoading } = useFetch(loggedInUserId ? `${baseUrl}/user/${loggedInUserId}` : null);
 
   const handleSearch = (e) => {
     const query = e.target.value;
@@ -61,9 +70,9 @@ export function Home() {
               communities. By giving the gift of health, you&apos;re offering more than just medicine - you&apos;re offering a chance at a healthier, 
               brighter future. Donate today and become a vital part of our healing mission.
             </p>
-            <AddBtn className={styles.donateButton} onClick={goToAddMedicine}>
+          { decodedToken?.role === 'user'&& <AddBtn className={styles.donateButton} onClick={goToAddMedicine}>
               Donate
-            </AddBtn>
+            </AddBtn>}
           </div>
           <div className={styles.rightContent}>
             <div className={styles.imageWrapper}>

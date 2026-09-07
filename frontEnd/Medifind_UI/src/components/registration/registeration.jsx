@@ -45,6 +45,7 @@ export function Registration() {
 
   const navigate = useNavigate();
 
+
   const handleClick = () => {
     navigate("/login");
   };
