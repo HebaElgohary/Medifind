@@ -1,36 +1,33 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export const useFetch = (url) => {
   const [data, setData] = useState(null);
-  const [totalPage,setTotalPage]=useState(null)
+  const [totalPage, setTotalPage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState(null);
 
   useEffect(() => {
-    // Don't fetch if URL is null or undefined
     if (!url) {
       setData(null);
+      setTotalPage(null);
       setIsLoading(false);
+      setServerError(null);
       return;
     }
-    
+
     const fetchData = async () => {
       setIsLoading(true);
+      setServerError(null);
+
       try {
         const response = await axios.get(url);
-        console.log('API Response:', response.data);
-        setTotalPage(response.data?.totalPage);
-        
-        // Handle different response formats
-        if (response.data?.data) {
-          // If data is nested in a 'data' property
-          setData(response.data.data);
-        } else {
-          // If data is directly in the response
-          setData(response.data);
-        }
 
+        setTotalPage(response.data?.totalPage);
+
+        setData(
+          response.data?.data ?? response.data
+        );
       } catch (error) {
         setServerError(error);
       } finally {
@@ -41,7 +38,10 @@ export const useFetch = (url) => {
     fetchData();
   }, [url]);
 
-  return { data, totalPage, isLoading, serverError };
+  return {
+    data,
+    totalPage,
+    isLoading,
+    serverError,
+  };
 };
-
-;

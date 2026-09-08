@@ -1,23 +1,47 @@
-import { useEffect, useState } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 
 export const useDecoded = () => {
-    const [decodedToken, setDecodedToken] = useState(null);
+  const [decodedToken, setDecodedToken] = useState(null);
+  const [isDecoding, setIsDecoding] = useState(true);
 
-    useEffect(() => {
-        const token = localStorage.getItem('token'); // Retrieve JWT token from local storage
+  const decodeToken = () => {
+    const token = localStorage.getItem("token");
 
-        if (token) {
-            try {
-                const decoded = jwtDecode(token); // Decode the token
-                setDecodedToken(decoded); // Store in state
-            } catch (error) {
-                console.error("Invalid JWT token", error);
-            }
-        } else {
-            console.log("No token found");
-        }
-    }, []);
+    if (!token) {
+      setDecodedToken(null);
+      setIsDecoding(false);
+      return;
+    }
 
-    return decodedToken;
+    try {
+      const decoded = jwtDecode(token);
+      setDecodedToken(decoded);
+    } catch (error) {
+      console.error("Invalid JWT token", error);
+      setDecodedToken(null);
+    } finally {
+      setIsDecoding(false);
+    }
+  };
+
+  useEffect(() => {
+    decodeToken();
+
+    const handleAuthChange = () => {
+      setIsDecoding(true);
+      decodeToken();
+    };
+
+    window.addEventListener("authChange", handleAuthChange);
+
+    return () => {
+      window.removeEventListener("authChange", handleAuthChange);
+    };
+  }, []);
+
+  return {
+    decodedToken,
+    isDecoding,
+  };
 };

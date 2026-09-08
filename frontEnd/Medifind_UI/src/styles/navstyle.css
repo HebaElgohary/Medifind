@@ -34,3 +34,15 @@
     background-color: #42ced5;
   }
   
+  .navbar {
+  position: relative;
+  z-index: 9999;
+}
+
+.navbar a,
+.navbar button,
+.navbar .user-icon {
+  position: relative;
+  z-index: 10000;
+  pointer-events: auto;
+}

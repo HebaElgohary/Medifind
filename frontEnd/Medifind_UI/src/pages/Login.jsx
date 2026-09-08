@@ -99,7 +99,7 @@ export function Login() {
 
       // Store token
       localStorage.setItem("token", data.token);
-
+window.dispatchEvent(new Event("authChange"));
       window.dispatchEvent(new Event("storage"));
 
       navigate("/home");

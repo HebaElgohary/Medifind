@@ -1,11 +1,48 @@
+.App {
+  position: relative;
+}
+
+.App ul {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 100%;
+  background-color: #01b3bd;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  color: white;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.5s ease;
+  list-style-type: none;
+  padding: 0;
+  margin: 3px;
+}
+
+.App ul.show {
+  max-height: 150px;
+}
+
+.App ul li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.App ul li:hover {
+  background-color: #42ced5;
+}
+
+/* =========================
+   Sidebar / User Navbar
+========================= */
+
 .sidebar {
   display: flex;
   justify-content: center;
-
   align-items: center;
 }
-
-
 
 .sidebar a {
   text-decoration: none;
@@ -25,15 +62,15 @@
   text-decoration: none;
 }
 
-/* Review Section */
+/* =========================
+   Doctor Navbar
+========================= */
+
 .review {
   display: flex;
   justify-content: center;
-  margin-right:250px;
   align-items: center;
 }
-
-
 
 .review a {
   text-decoration: none;
@@ -42,7 +79,7 @@
   transition: color 0.3s, background-color 0.3s;
   border-radius: 5px;
   margin-right: 20px;
-  padding: 0px 30px;
+  padding: 0 30px;
 }
 
 .review a:hover {
@@ -54,7 +91,10 @@
   text-decoration: none;
 }
 
-/* User Icon */
+/* =========================
+   User Icon
+========================= */
+
 .user-icon {
   width: 40px;
   height: 40px;
@@ -69,11 +109,13 @@
   justify-content: center;
 }
 
-/* Logout Button */
+/* =========================
+   Logout Button
+========================= */
+
 .logout {
   margin-left: 15px;
 }
-
 
 .logout button {
   background-color: transparent;
@@ -88,5 +130,3 @@
   color: red;
   background-color: transparent;
 }
-
-
