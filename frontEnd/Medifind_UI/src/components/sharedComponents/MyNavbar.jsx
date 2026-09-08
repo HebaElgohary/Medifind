@@ -41,7 +41,7 @@ export const NavBar = () => {
 
   if (isDecoding) {
     return (
-      <Navbar bg="light" expand="lg" className="shadow-sm">
+      <Navbar bg="white" expand="lg" className="shadow-sm">
         <Container>
           <Navbar.Brand
             onClick={() => navigate("/")}
@@ -61,7 +61,7 @@ export const NavBar = () => {
   }
 
   return (
-    <Navbar bg="light" expand="lg" className="shadow-sm">
+    <Navbar bg="" expand="lg" className="shadow-sm">
       <Container>
         <Navbar.Brand
           onClick={() => navigate("/")}

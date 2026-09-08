@@ -18,12 +18,14 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  
 }
 
 #root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  /* background-color: rgb(233, 233, 233); */
 }
 
 .text-brand {
