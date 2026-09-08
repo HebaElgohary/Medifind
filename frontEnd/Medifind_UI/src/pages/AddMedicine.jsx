@@ -1,25 +1,50 @@
-/* eslint-disable no-undef */
-import {  useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+
+import {
+  toast,
+  ToastContainer,
+} from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
-import { Card, Container, Form } from "react-bootstrap";
+
+import {
+  Card,
+  Container,
+  Form,
+} from "react-bootstrap";
 
 import { AddBtn } from "../components/customComponents/Addbtn";
 import { Loader } from "../components/customComponents/Loader/Loader";
 import { useAddMedicineForm } from "../customHooks/AddMedicine";
 import { useDecoded } from "../customHooks/useDecode";
-const BASE_URL  = import.meta.env.VITE_BASE_URL;
 import { useFetch } from "../customHooks/useFetch";
 
-
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const AddMedicine = () => {
-  const baseUrl = BASE_URL;
   const navigate = useNavigate();
+
   const [img_path, setPath] = useState("");
   const [isUploading, setUploading] = useState(false);
+
+  /*
+    ============================
+    Authentication
+    ============================
+  */
+
+  const {
+    decodedToken,
+    isDecoding,
+  } = useDecoded();
+
+  /*
+    ============================
+    Medicine Form
+    ============================
+  */
 
   const {
     medicineName,
@@ -35,211 +60,495 @@ export const AddMedicine = () => {
     validateForm,
   } = useAddMedicineForm();
 
-  const decodedToken = useDecoded();
-  const { data:userData } = useFetch( decodedToken ? `${baseUrl}/user/${decodedToken.id}` : '' );
-  
-  
- 
-    
-  
-  
- 
-  const handleUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+  /*
+    ============================
+    Get Current User
+    ============================
+  */
 
-    // Update the hook's image state so validation passes.
+  const {
+    data: userData,
+    isLoading: isUserLoading,
+  } = useFetch(
+    decodedToken?.id
+      ? `${BASE_URL}/user/${decodedToken.id}`
+      : null
+  );
+
+  /*
+    Normalize User Data
+  */
+
+  const user = Array.isArray(userData)
+    ? userData[0]
+    : userData;
+
+  /*
+    ============================
+    Upload Image
+    ============================
+  */
+
+  const handleUpload = async (e) => {
+    const file = e.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
     setImage(file);
 
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "medifined");
-    formData.append("cloud_name", "doxyvufkz");
+    const uploadData = new FormData();
+
+    uploadData.append("file", file);
+    uploadData.append(
+      "upload_preset",
+      "medifined"
+    );
+    uploadData.append(
+      "cloud_name",
+      "doxyvufkz"
+    );
 
     setUploading(true);
+
     try {
       const response = await axios.post(
         "https://api.cloudinary.com/v1_1/doxyvufkz/image/upload",
-        formData
+        uploadData
       );
 
-      console.log("Secure URL:", response.data.secure_url);
-      setPath(response.data.secure_url);
-      setUploading(false);
+      console.log(
+        "Secure URL:",
+        response.data.secure_url
+      );
+
+      setPath(
+        response.data.secure_url
+      );
     } catch (error) {
-      console.error("Upload failed:", error);
+      console.error(
+        "Upload failed:",
+        error
+      );
+
+      toast.error(
+        "Image upload failed",
+        {
+          position: "top-right",
+          autoClose: 3000,
+        }
+      );
+    } finally {
       setUploading(false);
     }
   };
 
-  // Handle form submission
+  /*
+    ============================
+    Submit Medicine
+    ============================
+  */
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (validateForm()) {
-      try {
-        if (img_path && decodedToken ) {
 
-          // Check if the user has a valid profile
-          if ( userData && userData[0].ssn) {
-             const response = await fetch(`${baseUrl}/medicine`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  name: medicineName,
-                  quantity: Number(numPieces),
-                  concentration: concentration,
-                  expire_date: expireDate,
-                  examine: false,
-                  status: false,
-                  image_path: img_path,
-                  user_id: decodedToken.id,
-                }),
-              });
+    /*
+      Don't submit while token
+      is still being decoded
+    */
 
-              console.log("Response status:", response.status);
-              if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || "Something went wrong!");
-              }
+    if (isDecoding) {
+      return;
+    }
 
-              toast.success("Medicine added successfully", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
+    /*
+      Make sure user is authenticated
+    */
 
-            // Clear the form fields
-            setMedicineName("");
-            setNumPieces("");
-            setExpireDate("");
-            setConcentration("");
-            setImage(null); // Clear the image state in the hook.
-            document.getElementById("imageInput").value = "";
-
-            // Navigate after a delay so that the toast can be seen.
-            setTimeout(() => {
-              console.log("Navigating to /donate");
-              navigate("/donate");
-            }, 2000);
-          }
-          else{ 
-             console.log("User profile is not completed.... Redirecting to profile page.");
-            toast.error("Please complete your profile before adding medicine", {
-              position: "top-right",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
-            setTimeout(() => {
-              navigate("/profile");
-            }, 3000);
-          }
-        } else {
-          throw new Error("Missing data");
+    if (!decodedToken?.id) {
+      toast.error(
+        "You must be logged in first",
+        {
+          position: "top-right",
+          autoClose: 3000,
         }
-      
-      } catch (error) {
-        toast.error("Something went wrong", {
+      );
+
+      return;
+    }
+
+    /*
+      Validate Form
+    */
+
+    if (!validateForm()) {
+      return;
+    }
+
+    /*
+      Make sure image exists
+    */
+
+    if (!img_path) {
+      toast.error(
+        "Please upload medicine image",
+        {
+          position: "top-right",
+          autoClose: 3000,
+        }
+      );
+
+      return;
+    }
+
+    /*
+      Make sure profile is completed
+    */
+
+    if (!user?.ssn) {
+      console.log(
+        "User profile is not completed. Redirecting to profile page."
+      );
+
+      toast.error(
+        "Please complete your profile before adding medicine",
+        {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          progress: undefined,
-        });
-        console.error("Submit error:", error);
+        }
+      );
+
+      setTimeout(() => {
+        navigate("/profile");
+      }, 3000);
+
+      return;
+    }
+
+    /*
+      ============================
+      Send Medicine Data
+      ============================
+    */
+
+    try {
+      const response = await fetch(
+        `${BASE_URL}/medicine`,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+
+          body: JSON.stringify({
+            name: medicineName,
+
+            quantity: Number(
+              numPieces
+            ),
+
+            concentration:
+              concentration,
+
+            expire_date:
+              expireDate,
+
+            examine: false,
+
+            status: false,
+
+            image_path:
+              img_path,
+
+            user_id:
+              decodedToken.id,
+          }),
+        }
+      );
+
+      console.log(
+        "Response status:",
+        response.status
+      );
+
+      /*
+        Handle API error
+      */
+
+      if (!response.ok) {
+        let errorMessage =
+          "Something went wrong!";
+
+        try {
+          const errorData =
+            await response.json();
+
+          errorMessage =
+            errorData?.message ||
+            errorMessage;
+        } catch {
+          // Response wasn't JSON
+        }
+
+        throw new Error(
+          errorMessage
+        );
       }
+
+      /*
+        ============================
+        Success
+        ============================
+      */
+
+      toast.success(
+        "Medicine added successfully",
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        }
+      );
+
+      /*
+        Clear Form
+      */
+
+      setMedicineName("");
+      setNumPieces("");
+      setExpireDate("");
+      setConcentration("");
+      setImage(null);
+      setPath("");
+
+      const imageInput =
+        document.getElementById(
+          "imageInput"
+        );
+
+      if (imageInput) {
+        imageInput.value = "";
+      }
+
+      /*
+        Navigate after success
+      */
+
+      setTimeout(() => {
+        navigate("/donate");
+      }, 2000);
+    } catch (error) {
+      console.error(
+        "Submit error:",
+        error
+      );
+
+      toast.error(
+        error?.message ||
+          "Something went wrong",
+        {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        }
+      );
     }
   };
+
+  /*
+    ============================
+    Loading
+    ============================
+  */
+
+  if (isDecoding) {
+    return <Loader />;
+  }
+
+  if (
+    decodedToken?.id &&
+    isUserLoading
+  ) {
+    return <Loader />;
+  }
+
+  /*
+    ============================
+    UI
+    ============================
+  */
 
   return (
     <>
       <ToastContainer />
+
       {isUploading && <Loader />}
+
       <Container>
         <Card className="p-4 shadow-sm">
-          <h3 className="text-center mb-4">Add Medicine</h3>
-          <Form onSubmit={handleSubmit}>
+          <h3 className="text-center mb-4">
+            Add Medicine
+          </h3>
+
+          <Form
+            onSubmit={handleSubmit}
+          >
             <div className="row">
+
+              {/* Medicine Name */}
+
               <div className="col-12 col-md-6">
                 <Form.Group className="mb-3">
-                  <Form.Label>Medicine Name:</Form.Label>
+                  <Form.Label>
+                    Medicine Name:
+                  </Form.Label>
+
                   <Form.Control
                     type="text"
                     value={medicineName}
-                    onChange={(e) => setMedicineName(e.target.value)}
-                    isInvalid={!!errors.medicineName}
+                    onChange={(e) =>
+                      setMedicineName(
+                        e.target.value
+                      )
+                    }
+                    isInvalid={
+                      !!errors.medicineName
+                    }
                   />
+
                   <Form.Control.Feedback type="invalid">
-                    {errors.medicineName}
+                    {
+                      errors.medicineName
+                    }
                   </Form.Control.Feedback>
                 </Form.Group>
               </div>
 
+              {/* Number of Pieces */}
+
               <div className="col-12 col-md-6">
                 <Form.Group className="mb-3">
-                  <Form.Label>Number of Pieces:</Form.Label>
+                  <Form.Label>
+                    Number of Pieces:
+                  </Form.Label>
+
                   <Form.Control
                     type="text"
                     value={numPieces}
-                    onChange={(e) => setNumPieces(e.target.value)}
-                    isInvalid={!!errors.numPieces}
+                    onChange={(e) =>
+                      setNumPieces(
+                        e.target.value
+                      )
+                    }
+                    isInvalid={
+                      !!errors.numPieces
+                    }
                   />
+
                   <Form.Control.Feedback type="invalid">
-                    {errors.numPieces}
+                    {
+                      errors.numPieces
+                    }
                   </Form.Control.Feedback>
                 </Form.Group>
               </div>
 
+              {/* Expire Date */}
+
               <div className="col-12 col-md-6">
                 <Form.Group className="mb-3">
-                  <Form.Label>Expire Date:</Form.Label>
+                  <Form.Label>
+                    Expire Date:
+                  </Form.Label>
+
                   <Form.Control
                     type="date"
                     value={expireDate}
-                    onChange={(e) => setExpireDate(e.target.value)}
-                    isInvalid={!!errors.expireDate}
+                    onChange={(e) =>
+                      setExpireDate(
+                        e.target.value
+                      )
+                    }
+                    isInvalid={
+                      !!errors.expireDate
+                    }
                   />
+
                   <Form.Control.Feedback type="invalid">
-                    {errors.expireDate}
+                    {
+                      errors.expireDate
+                    }
                   </Form.Control.Feedback>
                 </Form.Group>
               </div>
+
+              {/* Concentration */}
 
               <div className="col-12 col-md-6">
                 <Form.Group className="mb-3">
-                  <Form.Label>Concentration:</Form.Label>
+                  <Form.Label>
+                    Concentration:
+                  </Form.Label>
+
                   <Form.Control
                     type="text"
-                    value={concentration}
-                    onChange={(e) => setConcentration(e.target.value)}
-                    isInvalid={!!errors.concentration}
+                    value={
+                      concentration
+                    }
+                    onChange={(e) =>
+                      setConcentration(
+                        e.target.value
+                      )
+                    }
+                    isInvalid={
+                      !!errors.concentration
+                    }
                   />
+
                   <Form.Control.Feedback type="invalid">
-                    {errors.concentration}
+                    {
+                      errors.concentration
+                    }
                   </Form.Control.Feedback>
                 </Form.Group>
               </div>
 
+              {/* Image */}
+
               <div className="col-12">
                 <Form.Group className="mb-3">
-                  <Form.Label>Add Image:</Form.Label>
+                  <Form.Label>
+                    Add Image:
+                  </Form.Label>
+
                   <Form.Control
                     id="imageInput"
                     type="file"
                     accept="image/png, image/jpeg"
-                    onChange={handleUpload}
-                    isInvalid={!!errors.image}
+                    onChange={
+                      handleUpload
+                    }
+                    isInvalid={
+                      !!errors.image
+                    }
+                    disabled={
+                      isUploading
+                    }
                   />
+
                   <Form.Control.Feedback type="invalid">
                     {errors.image}
                   </Form.Control.Feedback>
@@ -247,22 +556,32 @@ export const AddMedicine = () => {
               </div>
             </div>
 
+            {/* Add Button */}
+
             <div className="text-center d-flex justify-content-end w-25 ms-auto">
-              <AddBtn type="submit" disabled={!img_path}>
+              <AddBtn
+                type="submit"
+                disabled={
+                  !img_path ||
+                  isUploading ||
+                  isDecoding
+                }
+              >
                 Add
               </AddBtn>
             </div>
           </Form>
         </Card>
-        <div   className="  px-3 rounded text-gray " > 
-          <strong>Note:</strong> 
-            Please ensure to complete your profile before adding medicine.
-         
 
+        <div className="px-3 rounded text-gray">
+          <strong>
+            Note:
+          </strong>{" "}
+          Please ensure to complete
+          your profile before adding
+          medicine.
         </div>
       </Container>
     </>
   );
 };
-
-

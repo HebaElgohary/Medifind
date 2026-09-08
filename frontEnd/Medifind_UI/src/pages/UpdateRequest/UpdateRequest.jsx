@@ -1,32 +1,84 @@
-/* eslint-disable no-unused-vars */
-import { useState } from "react";
-import { Container, Row, Col, Form, Card } from "react-bootstrap";
+import { useState, useEffect } from "react";
+
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Card,
+} from "react-bootstrap";
+
 import { FaPlus } from "react-icons/fa";
+
 import { AddBtn } from "../../components/customComponents/Addbtn";
-import useMedicineForm from "../../customHooks/RequestMedicine";  
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import useMedicineForm from "../../customHooks/RequestMedicine";
+
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
+
 import { useDecoded } from "../../customHooks/useDecode";
 
-const BASE_URL  = import.meta.env.VITE_BASE_URL;
 import { Loader } from "../../components/customComponents/Loader/Loader";
 
+import "../CardPage.css";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const UpdateRequest = () => {
-  
-  // Provide default empty object if state is undefined
-  const { state  } = useLocation();
-  const { id } = useParams();
-  // Fallback: if request_id is not provided via state, try to use the id from the URL
-  const { request_id , url ,name ,image } = state; 
-  console.log("Request ID:", request_id);
-  console.log("🚀 ~ UpdateRequest ~ image:", image)
-  console.log("URL:", url);
   const navigate = useNavigate();
-  const decodedToken = useDecoded();
-    
+  const location = useLocation();
+  const { id } = useParams();
+
+  /*
+    ============================
+    Location State
+    ============================
+  */
+
+  const state = location.state || {};
+
+  const {
+    request_id: stateRequestId,
+    url,
+    name,
+    image,
+  } = state;
+
+  /*
+    If request_id doesn't exist in state,
+    use the id from URL
+  */
+  const requestId = stateRequestId || id;
+
+  /*
+    ============================
+    Authentication
+    ============================
+  */
+
+  const {
+    decodedToken,
+    isDecoding,
+  } = useDecoded();
+
+  /*
+    ============================
+    URLs
+    ============================
+  */
+
   const req_Url = `${BASE_URL}/request`;
   const order_Url = `${BASE_URL}/orders`;
-  
+
+  /*
+    ============================
+    Form
+    ============================
+  */
+
   const {
     formData,
     errors,
@@ -35,90 +87,212 @@ export const UpdateRequest = () => {
     handleDrop,
     validateForm,
     setFormData,
-  } = useMedicineForm();  
+  } = useMedicineForm();
+
+  /*
+    ============================
+    Local State
+    ============================
+  */
 
   const [showModal, setShowModal] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  // Check if essential data is available
-  if (!request_id || !url) {
-    return <div>Error: Missing required update information.</div>;
-  }
 
+  /*
+    ============================
+    Initialize Form
+    ============================
+  */
+
+  useEffect(() => {
+    if (!state) return;
+
+    setFormData((prev) => ({
+      ...prev,
+      name: name || "",
+      description: prev.description || "",
+      image: image || null,
+    }));
+  }, [state, name, image, setFormData]);
+
+  /*
+    ============================
+    Submit
+    ============================
+  */
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
-      const requestData = {
-        req_name: formData.name,
-        requested: true,
-        req_description: formData.description,
-        user_id: decodedToken.id,
-        prescription_img: formData.image,
-      };
-      try {
-        const endpoint =
-          url === req_Url
-            ? `${BASE_URL}/request/${request_id}`
-            : `${BASE_URL}/orders/${request_id}`;
 
-        const response = await fetch(endpoint, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestData),
-        });
+    if (isDecoding) {
+      return;
+    }
 
-        if (!response.ok) {
+    if (!decodedToken?.id) {
+      console.error("User is not authenticated");
+      return;
+    }
+
+    if (!requestId) {
+      console.error("Request ID is missing");
+      return;
+    }
+
+    if (!validateForm()) {
+      return;
+    }
+
+    const requestData = {
+      req_name: formData.name,
+      requested: true,
+      req_description: formData.description,
+      user_id: decodedToken.id,
+      prescription_img: formData.image,
+    };
+
+    try {
+      const endpoint =
+        url === req_Url
+          ? `${BASE_URL}/request/${requestId}`
+          : `${order_Url}/${requestId}`;
+
+      const response = await fetch(endpoint, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      if (!response.ok) {
+        let errorMessage = "Something went wrong!";
+
+        try {
           const errorData = await response.json();
-          throw new Error(errorData.message || "Something went wrong!");
+
+          errorMessage =
+            errorData?.message || errorMessage;
+        } catch {
+          // Ignore JSON parsing error
         }
 
-        setShowModal(true);
-        setFormData({
-          name: "",
-          description: "",
-          image: null,
-        });
-       
-          navigate("/need");
-        
-      } catch (error) {
-        console.error("Submit error:", error);
+        throw new Error(errorMessage);
       }
+
+      const data = await response.json();
+
+      console.log(
+        "Request updated successfully:",
+        data
+      );
+
+      setShowModal(true);
+
+      setFormData({
+        name: "",
+        description: "",
+        image: null,
+      });
+
+      navigate("/need");
+    } catch (error) {
+      console.error(
+        "Submit error:",
+        error
+      );
     }
   };
+
+  /*
+    ============================
+    Missing State
+    ============================
+  */
+
+  if (!requestId || !url) {
+    return (
+      <div className="text-center mt-5">
+        <h4>
+          Error: Missing required update information.
+        </h4>
+
+        <AddBtn
+          className="mt-3"
+          onClick={() => navigate("/need")}
+        >
+          Back
+        </AddBtn>
+      </div>
+    );
+  }
+
+  /*
+    ============================
+    Loading
+    ============================
+  */
+
+  if (isDecoding) {
+    return <Loader />;
+  }
+
+  /*
+    ============================
+    UI
+    ============================
+  */
 
   return (
     <>
       {isUploading && (
         <div
           style={{
-            position: 'fixed',
+            position: "fixed",
             top: 0,
             left: 0,
-            width: '100%',
-            height: '100%',
-            // backgroundColor: 'rgba(255, 255, 255, 0.8)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
             zIndex: 9999,
-
           }}
         >
           <Loader />
         </div>
       )}
+
       <Container style={{ marginTop: "50px" }}>
-        <Card className="shadow-sm" style={{ padding: "25px 20px", margin: "50px 0px" }}>
-          <h3 className="text-center mb-4">Update Request</h3>
+        <Card
+          className="shadow-sm"
+          style={{
+            padding: "25px 20px",
+            margin: "50px 0px",
+          }}
+        >
+          <h3 className="text-center mb-4">
+            Update Request
+          </h3>
+
           <Row>
-            <Col md={3} className="d-flex justify-content-center">
+            {/* =========================
+                Image Section
+            ========================= */}
+
+            <Col
+              md={3}
+              className="d-flex justify-content-center"
+            >
               <div
-                onDragOver={(e) => e.preventDefault()}
+                onDragOver={(e) =>
+                  e.preventDefault()
+                }
                 onDrop={handleDrop}
-                onClick={() => document.getElementById("fileInput").click()}
+                onClick={() =>
+                  document
+                    .getElementById("fileInput")
+                    ?.click()
+                }
                 style={{
                   width: "200px",
                   height: "200px",
@@ -131,12 +305,21 @@ export const UpdateRequest = () => {
                   color: "#666",
                   cursor: "pointer",
                   overflow: "hidden",
-                  border: errors.image ? "2px solid red" : "none",
+                  border: errors.image
+                    ? "2px solid red"
+                    : "none",
                 }}
               >
                 {formData.image ? (
                   <img
-                    src={image}
+                    src={
+                      typeof formData.image ===
+                      "string"
+                        ? formData.image
+                        : URL.createObjectURL(
+                            formData.image
+                          )
+                    }
                     alt="Preview"
                     style={{
                       width: "100%",
@@ -147,57 +330,118 @@ export const UpdateRequest = () => {
                 ) : (
                   <FaPlus />
                 )}
+
                 <input
                   type="file"
                   id="fileInput"
                   accept="image/*"
                   onChange={(e) => {
                     setIsUploading(true);
-                    handleUpload(e).finally(() => {
+
+                    const uploadPromise =
+                      handleUpload(e);
+
+                    if (
+                      uploadPromise &&
+                      typeof uploadPromise.finally ===
+                        "function"
+                    ) {
+                      uploadPromise.finally(() => {
+                        setIsUploading(false);
+                      });
+                    } else {
                       setIsUploading(false);
-                    });
+                    }
                   }}
                   hidden
                 />
               </div>
-              {errors.image && <p className="text-danger mt-2">{errors.image}</p>}
+
+              {errors.image && (
+                <p className="text-danger mt-2">
+                  {errors.image}
+                </p>
+              )}
             </Col>
+
+            {/* =========================
+                Form Section
+            ========================= */}
 
             <Col md={9}>
               <Form onSubmit={handleSubmit}>
+                {/* Name */}
+
                 <Form.Group className="mb-3">
-                  <Form.Label>Name:</Form.Label>
+                  <Form.Label>
+                    Name:
+                  </Form.Label>
+
                   <Form.Control
                     type="text"
                     name="name"
-                    value={name}
+                    value={formData.name}
                     onChange={handleChange}
-                    style={{ backgroundColor: request_id ? "#f8f9fa" : "#fff" }}
-                    isInvalid={!!errors.name}
+                    style={{
+                      backgroundColor: requestId
+                        ? "#f8f9fa"
+                        : "#fff",
+                    }}
+                    isInvalid={
+                      !!errors.name
+                    }
                   />
+
                   <Form.Control.Feedback type="invalid">
                     {errors.name}
                   </Form.Control.Feedback>
                 </Form.Group>
 
+                {/* Description */}
+
                 <Form.Group className="mb-3">
-                  <Form.Label>Description:</Form.Label>
+                  <Form.Label>
+                    Description:
+                  </Form.Label>
+
                   <Form.Control
                     as="textarea"
                     name="description"
-                    value={formData.description}
+                    value={
+                      formData.description
+                    }
                     onChange={handleChange}
-                    style={{ backgroundColor: "#ffffff" }}
-                    isInvalid={!!errors.description}
+                    style={{
+                      backgroundColor:
+                        "#ffffff",
+                    }}
+                    isInvalid={
+                      !!errors.description
+                    }
                   />
+
                   <Form.Control.Feedback type="invalid">
-                    {errors.description}
+                    {
+                      errors.description
+                    }
                   </Form.Control.Feedback>
                 </Form.Group>
 
+                {/* Submit */}
+
                 <div className="mt-4 d-flex justify-content-end w-25 ms-auto">
-                  <AddBtn style={{ backgroundColor: "var(--main-color)" }} type="submit">
-                    {request_id ? "Update" : "Add Request"}
+                  <AddBtn
+                    style={{
+                      backgroundColor:
+                        "var(--main-color)",
+                    }}
+                    type="submit"
+                    disabled={
+                      isDecoding ||
+                      isUploading
+                    }
+                  >
+                    Update
                   </AddBtn>
                 </div>
               </Form>
@@ -205,120 +449,6 @@ export const UpdateRequest = () => {
           </Row>
         </Card>
       </Container>
-
-      {/* <AnimatePresence>
-        {showModal && (
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-              zIndex: 1050,
-            }}
-          >
-            <motion.div
-              initial={{ scale: 0.5, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.5, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              style={{
-                backgroundColor: "white",
-                padding: "2rem",
-                borderRadius: "15px",
-                width: "90%",
-                maxWidth: "400px",
-                position: "relative",
-                boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1, rotate: 360 }}
-                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  marginBottom: "1.5rem",
-                }}
-              >
-                <FaCheckCircle size={60} color="#1E9694" />
-              </motion.div>
-
-              <motion.h4
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                style={{
-                  textAlign: "center",
-                  color: "#1E9694",
-                  marginBottom: "1rem",
-                  fontSize: "1.5rem",
-                  fontWeight: "600",
-                }}
-              >
-                Success!
-              </motion.h4>
-
-              <motion.p
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                style={{
-                  textAlign: "center",
-                  color: "#666",
-                  marginBottom: "2rem",
-                  fontSize: "1.1rem",
-                }}
-              >
-                {request_id
-                  ? "Your request has been updated successfully!"
-                  : "Your request has been added successfully!"}
-              </motion.p>
-
-              <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <button
-                  onClick={() => setShowModal(false)}
-                  style={{
-                    backgroundColor: "#1E9694",
-                    color: "white",
-                    border: "none",
-                    padding: "0.8rem 2rem",
-                    borderRadius: "8px",
-                    fontSize: "1rem",
-                    fontWeight: "500",
-                    cursor: "pointer",
-                    transition: "transform 0.2s, box-shadow 0.2s",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.transform = "translateY(-2px)";
-                    e.target.style.boxShadow = "0 5px 15px rgba(30, 150, 148, 0.3)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.transform = "translateY(0)";
-                    e.target.style.boxShadow = "none";
-                  }}
-                >
-                  Close
-                </button>
-              </motion.div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence> */}
     </>
   );
 };

@@ -1,21 +1,17 @@
 /* eslint-disable react/no-unescaped-entities */
-/* eslint-disable no-unused-vars */
 
 import { useState } from "react";
 import { Form } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
 import { AddBtn } from "../components/customComponents/Addbtn";
-
 import {
   FaUser,
   FaLock,
   FaEye,
   FaEyeSlash,
 } from "react-icons/fa";
-
 import { motion } from "framer-motion";
 import logo from "../assets/medi3.png";
-
 import "../pages/Login.css";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -25,34 +21,32 @@ export function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [errors, setErrors] = useState({});
-
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  /* =========================
-     Validation
-  ========================= */
+  // =========================
+  // Validation
+  // =========================
 
   const mailRegex =
-    "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const pwdRegex =
-    "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
   const validateForm = () => {
     const newErrors = {};
 
-    if (!email) {
+    if (!email.trim()) {
       newErrors.email = "Email is required";
-    } else if (!RegExp(mailRegex).test(email)) {
+    } else if (!mailRegex.test(email)) {
       newErrors.email = "Email is invalid";
     }
 
     if (!password) {
       newErrors.password = "Password is required";
-    } else if (!RegExp(pwdRegex).test(password)) {
+    } else if (!pwdRegex.test(password)) {
       newErrors.password =
         "Password must be at least 8 characters, including a letter, a number, and a special character.";
     }
@@ -62,9 +56,9 @@ export function Login() {
     return Object.keys(newErrors).length === 0;
   };
 
-  /* =========================
-     Submit
-  ========================= */
+  // =========================
+  // Submit
+  // =========================
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,11 +70,9 @@ export function Login() {
     try {
       const response = await fetch(`${BASE_URL}/login`, {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
         },
-
         body: JSON.stringify({
           email,
           password,
@@ -91,20 +83,25 @@ export function Login() {
 
       if (!response.ok) {
         setErrors({
-          form: data.msg || "Invalid email or password",
+          form: data?.msg || "Invalid email or password",
         });
 
         return;
       }
 
+      // =========================
       // Store token
-      localStorage.setItem("token", data.token);
-window.dispatchEvent(new Event("authChange"));
-      window.dispatchEvent(new Event("storage"));
+      // =========================
 
-      navigate("/home");
+      localStorage.setItem("token", data.token);
+
+      // Notify all components that auth state changed
+      window.dispatchEvent(new Event("authChange"));
+
+      // Navigate after auth state is updated
+      navigate("/home", { replace: true });
     } catch (error) {
-      console.error(error.message);
+      console.error("Login error:", error);
 
       setErrors({
         form: "Something went wrong",
@@ -122,7 +119,6 @@ window.dispatchEvent(new Event("authChange"));
       ===================================================== */}
 
       <div className="login-left">
-
         <div className="login-wrapper">
 
           {/* =========================
@@ -131,9 +127,17 @@ window.dispatchEvent(new Event("authChange"));
 
           <motion.div
             className="login-header"
-            initial={{ opacity: 0, y: -15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            initial={{
+              opacity: 0,
+              y: -15,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              duration: 0.5,
+            }}
           >
             <img
               src={logo}
@@ -156,21 +160,19 @@ window.dispatchEvent(new Event("authChange"));
 
           <motion.div
             className="login-card"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{
+              opacity: 0,
+              y: 20,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
             transition={{
               duration: 0.5,
               delay: 0.1,
             }}
           >
-
-            {/* =================================================
-                IMPORTANT:
-
-                Everything inside this wrapper can scroll.
-                The button is INSIDE it.
-            ================================================= */}
-
             <div className="login-form-scroll">
 
               <Form
@@ -200,9 +202,15 @@ window.dispatchEvent(new Event("authChange"));
                       type="email"
                       placeholder="Enter your email"
                       value={email}
-                      onChange={(e) =>
-                        setEmail(e.target.value)
-                      }
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+
+                        setErrors((prev) => ({
+                          ...prev,
+                          email: "",
+                          form: "",
+                        }));
+                      }}
                       isInvalid={!!errors.email}
                       className="login-input"
                     />
@@ -243,9 +251,15 @@ window.dispatchEvent(new Event("authChange"));
                       }
                       placeholder="Enter your password"
                       value={password}
-                      onChange={(e) =>
-                        setPassword(e.target.value)
-                      }
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+
+                        setErrors((prev) => ({
+                          ...prev,
+                          password: "",
+                          form: "",
+                        }));
+                      }}
                       isInvalid={!!errors.password}
                       className="login-input"
                     />
@@ -324,9 +338,6 @@ window.dispatchEvent(new Event("authChange"));
 
                 {/* =========================
                     LOGIN BUTTON
-
-                    IMPORTANT:
-                    It is inside the scroll area.
                 ========================= */}
 
                 <motion.div
@@ -338,7 +349,6 @@ window.dispatchEvent(new Event("authChange"));
                     scale: 0.98,
                   }}
                 >
-
                   <AddBtn
                     type="submit"
                     disabled={isLoading}
@@ -347,7 +357,6 @@ window.dispatchEvent(new Event("authChange"));
                       ? "Signing in..."
                       : "Sign In"}
                   </AddBtn>
-
                 </motion.div>
 
                 {/* =========================
@@ -369,11 +378,9 @@ window.dispatchEvent(new Event("authChange"));
               </Form>
 
             </div>
-
           </motion.div>
 
         </div>
-
       </div>
 
       {/* =====================================================
@@ -422,7 +429,6 @@ window.dispatchEvent(new Event("authChange"));
             delay: 0.2,
           }}
         >
-
           <h2 className="login-right-title">
             Care Starts With You
           </h2>
@@ -431,7 +437,6 @@ window.dispatchEvent(new Event("authChange"));
             Connect with people, medicines and
             healthcare services through Medifind.
           </p>
-
         </motion.div>
 
       </div>
