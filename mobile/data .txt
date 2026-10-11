@@ -1,0 +1,155 @@
+import {
+  event1,
+  event2,
+  event3,
+  event4,
+  event5,
+  event6,
+} from "../assets/images/images";
+
+export const Events = [
+  {
+    id: 0,
+    img: event1,
+    title: "Building Better User Experiences",
+    description:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. ",
+    overview:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi.  Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi.  ",
+    details:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    benefits:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    faq: "",
+    testimonials: "",
+    requirements:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    location: "cairo",
+   highlights: [
+       "Lorem ipsum dolor amet consectetur",
+      "Lorem ipsum dolor amet consectetur.",
+      "Lorem ipsum dolor amet consectetur.  ",
+    ],
+    skills: ["Skill Name 1", "Skill Name 2", "Skill Name 3"],
+  },
+  {
+    id: 1,
+    img: event2,
+    title: "Frontend vs Backend Explained",
+    description:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. ",
+    overview:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi.  Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi.  ",
+    details:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    benefits:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    faq: "",
+    testimonials: "",
+    requirements:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    location: "cairo",
+    highlights: [
+       "Lorem ipsum dolor amet consectetur",
+      "Lorem ipsum dolor amet consectetur.",
+      "Lorem ipsum dolor amet consectetur.  ",
+    ],
+    skills: ["Skill Name 1", "Skill Name 2", "Skill Name 3"],
+  },
+  {
+    id: 2,
+    img: event3,
+    title: "Digital Marketing Fundamentals",
+    description:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. ",
+    overview:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi.  Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi.  ",
+    details:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    benefits:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    faq: "",
+    testimonials: "",
+    requirements:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    location: "cairo",
+    highlights: [
+      "Lorem ipsum dolor amet consectetur",
+      "Lorem ipsum dolor amet consectetur.",
+      "Lorem ipsum dolor amet consectetur.  ",
+    ],
+    skills: ["Skill Name 1", "Skill Name 2", "Skill Name 3"],
+  },
+  {
+    id: 3,
+    img: event4,
+    title: "Design Thinking Basics",
+    description:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. ",
+    overview:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi.  Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi.  ",
+    details:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    benefits:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    faq: "",
+    testimonials: "",
+    requirements:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    location: "cairo",
+    highlights: [
+      "Lorem ipsum dolor amet consectetur. Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit consectetur.",
+      "Lorem ipsum dolor amet consectetur. Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit consectetur.",
+      "Lorem ipsum dolor amet consectetur. Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit consectetur.",
+    ],
+    skills: ["Skill Name 1", "Skill Name 2", "Skill Name 3"],
+  },
+  {
+    id: 4,
+    img: event5,
+    title: "Python for Beginners",
+    description:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. ",
+    overview:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi.  Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi.  ",
+    details:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    benefits:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    faq: "",
+    testimonials: "",
+    requirements:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    location: "cairo",
+    highlights: [
+      "Lorem ipsum dolor amet consectetur. Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit consectetur.",
+      "Lorem ipsum dolor amet consectetur. Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit consectetur.",
+      "Lorem ipsum dolor amet consectetur. Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit consectetur.",
+    ],
+    skills: ["Skill Name 1", "Skill Name 2", "Skill Name 3"],
+  },
+  {
+    id: 5,
+    img: event6,
+    title: "Content that Converts",
+    description:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. ",
+    overview:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi.  Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi.  ",
+    details:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    benefits:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    faq: "",
+    testimonials: "",
+    requirements:
+      "Lorem ipsum dolor sit amet consectetur. Ut volutpat fusce ultrices luctus mattis nisl. Enim pretium accumsan tellus a ut pellentesque arcu tortor eget. Consectetur gravida sem quam integer in ultrices pretium nisi. ",
+    location: "cairo",
+    highlights: [
+      "Lorem ipsum dolor amet consectetur. Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit consectetur.",
+      "Lorem ipsum dolor amet consectetur. Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit consectetur.",
+      "Lorem ipsum dolor amet consectetur. Lorem ipsum dolor sit amet consectetur. Lorem ipsum dolor sit consectetur.",
+    ],
+    skills: ["Skill Name 1", "Skill Name 2", "Skill Name 3"],
+  },
+];
