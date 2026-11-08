@@ -5,7 +5,7 @@ import { useDecoded } from './useDecode';
 export const useDelete = (url) => {
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState(null);
-  const decodedToken = useDecoded();
+  const {decodedToken} = useDecoded();
 
   const deleteRequest = async (req_id) => {
     setIsLoading(true);
