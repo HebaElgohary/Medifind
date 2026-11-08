@@ -103,7 +103,7 @@
   text-overflow: ellipsis;
 }
 
-/* Info container - horizontal layout with divider */
+/* Info container */
 .donation-info-container {
   display: flex;
   align-items: center;
@@ -136,14 +136,11 @@
 }
 
 .donation-icon-wrapper {
-  /* width: 28px; */
   height: 28px;
   border-radius: 8px;
-  /* background: linear-gradient(135deg, #4facfe, #00f2fe); */
   display: flex;
   align-items: center;
   justify-content: center;
-  /* box-shadow: 0 3px 8px rgba(79, 172, 254, 0.2); */
 }
 
 .donation-icon {
@@ -189,11 +186,9 @@
   width: 28px;
   height: 28px;
   border-radius: 8px;
-  /* background: linear-gradient(135deg, #f6ad55, #ed8936); */
   display: flex;
   align-items: center;
   justify-content: center;
-  /*  box-shadow: 0 3px 8px rgba(237, 137, 54, 0.2); */
 }
 
 .expiry-icon {
@@ -238,7 +233,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: none !important;
   color: white;
   font-size: 12px;
   position: absolute;
@@ -269,16 +264,14 @@
 
 .donation-card:hover .btn-delete {
   transform: translateX(0);
-  transition-delay: 0s;
 }
 
 .donation-card:hover .btn-update {
   transform: translateX(0);
-  transition-delay: 0.1s;
 }
 
 .donation-action-btn:hover {
-  transform: scale(1.1) !important;
+  transform: none !important;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   z-index: 10;
 }
