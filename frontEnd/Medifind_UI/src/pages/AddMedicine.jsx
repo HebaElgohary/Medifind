@@ -2,18 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import {
-  toast,
-  ToastContainer,
-} from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 
-import {
-  Card,
-  Container,
-  Form,
-} from "react-bootstrap";
+import { Card, Container, Form } from "react-bootstrap";
 
 import { AddBtn } from "../components/customComponents/Addbtn";
 import { Loader } from "../components/customComponents/Loader/Loader";
@@ -35,10 +28,7 @@ export const AddMedicine = () => {
     ============================
   */
 
-  const {
-    decodedToken,
-    isDecoding,
-  } = useDecoded();
+  const { decodedToken, isDecoding } = useDecoded();
 
   /*
     ============================
@@ -66,22 +56,15 @@ export const AddMedicine = () => {
     ============================
   */
 
-  const {
-    data: userData,
-    isLoading: isUserLoading,
-  } = useFetch(
-    decodedToken?.id
-      ? `${BASE_URL}/user/${decodedToken.id}`
-      : null
+  const { data: userData, isLoading: isUserLoading } = useFetch(
+    decodedToken?.id ? `${BASE_URL}/user/${decodedToken.id}` : null,
   );
 
   /*
     Normalize User Data
   */
 
-  const user = Array.isArray(userData)
-    ? userData[0]
-    : userData;
+  const user = Array.isArray(userData) ? userData[0] : userData;
 
   /*
     ============================
@@ -101,44 +84,27 @@ export const AddMedicine = () => {
     const uploadData = new FormData();
 
     uploadData.append("file", file);
-    uploadData.append(
-      "upload_preset",
-      "medifined"
-    );
-    uploadData.append(
-      "cloud_name",
-      "doxyvufkz"
-    );
+    uploadData.append("upload_preset", "medifined");
+    uploadData.append("cloud_name", "doxyvufkz");
 
     setUploading(true);
 
     try {
       const response = await axios.post(
         "https://api.cloudinary.com/v1_1/doxyvufkz/image/upload",
-        uploadData
+        uploadData,
       );
 
-      console.log(
-        "Secure URL:",
-        response.data.secure_url
-      );
+      console.log("Secure URL:", response.data.secure_url);
 
-      setPath(
-        response.data.secure_url
-      );
+      setPath(response.data.secure_url);
     } catch (error) {
-      console.error(
-        "Upload failed:",
-        error
-      );
+      console.error("Upload failed:", error);
 
-      toast.error(
-        "Image upload failed",
-        {
-          position: "top-right",
-          autoClose: 3000,
-        }
-      );
+      toast.error("Image upload failed", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     } finally {
       setUploading(false);
     }
@@ -167,13 +133,10 @@ export const AddMedicine = () => {
     */
 
     if (!decodedToken?.id) {
-      toast.error(
-        "You must be logged in first",
-        {
-          position: "top-right",
-          autoClose: 3000,
-        }
-      );
+      toast.error("You must be logged in first", {
+        position: "top-right",
+        autoClose: 3000,
+      });
 
       return;
     }
@@ -191,13 +154,10 @@ export const AddMedicine = () => {
     */
 
     if (!img_path) {
-      toast.error(
-        "Please upload medicine image",
-        {
-          position: "top-right",
-          autoClose: 3000,
-        }
-      );
+      toast.error("Please upload medicine image", {
+        position: "top-right",
+        autoClose: 3000,
+      });
 
       return;
     }
@@ -208,20 +168,17 @@ export const AddMedicine = () => {
 
     if (!user?.ssn) {
       console.log(
-        "User profile is not completed. Redirecting to profile page."
+        "User profile is not completed. Redirecting to profile page.",
       );
 
-      toast.error(
-        "Please complete your profile before adding medicine",
-        {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        }
-      );
+      toast.error("Please complete your profile before adding medicine", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
 
       setTimeout(() => {
         navigate("/profile");
@@ -237,69 +194,51 @@ export const AddMedicine = () => {
     */
 
     try {
-      const response = await fetch(
-        `${BASE_URL}/medicine`,
-        {
-          method: "POST",
+      const response = await fetch(`${BASE_URL}/medicine`, {
+        method: "POST",
 
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
+        headers: {
+          "Content-Type": "application/json",
+        },
 
-          body: JSON.stringify({
-            name: medicineName,
+        body: JSON.stringify({
+          name: medicineName,
 
-            quantity: Number(
-              numPieces
-            ),
+          quantity: Number(numPieces),
 
-            concentration:
-              concentration,
+          concentration: concentration,
 
-            expire_date:
-              expireDate,
+          expire_date: expireDate,
 
-            examine: false,
+          examine: false,
 
-            status: false,
+          status: false,
 
-            image_path:
-              img_path,
+          image_path: img_path,
 
-            user_id:
-              decodedToken.id,
-          }),
-        }
-      );
+          user_id: decodedToken.id,
+        }),
+      });
 
-      console.log(
-        "Response status:",
-        response.status
-      );
-
+      console.log("Response status:", response.status);
+      const responseData = await response.clone().json();
+      console.log("Response data:", responseData);
       /*
         Handle API error
       */
 
       if (!response.ok) {
-        let errorMessage =
-          "Something went wrong!";
+        let errorMessage = "Something went wrong!";
 
         try {
-          const errorData =
-            await response.json();
+          const errorData = await response.json();
 
-          errorMessage =
-            errorData?.message ||
-            errorMessage;
+          errorMessage = errorData?.message || errorMessage;
         } catch {
           // Response wasn't JSON
         }
 
-        throw new Error(
-          errorMessage
-        );
+        throw new Error(errorMessage);
       }
 
       /*
@@ -308,17 +247,14 @@ export const AddMedicine = () => {
         ============================
       */
 
-      toast.success(
-        "Medicine added successfully",
-        {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        }
-      );
+      toast.success("Medicine added successfully", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
 
       /*
         Clear Form
@@ -331,10 +267,7 @@ export const AddMedicine = () => {
       setImage(null);
       setPath("");
 
-      const imageInput =
-        document.getElementById(
-          "imageInput"
-        );
+      const imageInput = document.getElementById("imageInput");
 
       if (imageInput) {
         imageInput.value = "";
@@ -348,23 +281,16 @@ export const AddMedicine = () => {
         navigate("/donate");
       }, 2000);
     } catch (error) {
-      console.error(
-        "Submit error:",
-        error
-      );
+      console.error("Submit error:", error);
 
-      toast.error(
-        error?.message ||
-          "Something went wrong",
-        {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        }
-      );
+      toast.error(error?.message || "Something went wrong", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
@@ -378,10 +304,7 @@ export const AddMedicine = () => {
     return <Loader />;
   }
 
-  if (
-    decodedToken?.id &&
-    isUserLoading
-  ) {
+  if (decodedToken?.id && isUserLoading) {
     return <Loader />;
   }
 
@@ -399,40 +322,25 @@ export const AddMedicine = () => {
 
       <Container>
         <Card className="p-4 shadow-sm">
-          <h3 className="text-center mb-4">
-            Add Medicine
-          </h3>
+          <h3 className="text-center mb-4">Add Medicine</h3>
 
-          <Form
-            onSubmit={handleSubmit}
-          >
+          <Form onSubmit={handleSubmit}>
             <div className="row">
-
               {/* Medicine Name */}
 
               <div className="col-12 col-md-6">
                 <Form.Group className="mb-3">
-                  <Form.Label>
-                    Medicine Name:
-                  </Form.Label>
+                  <Form.Label>Medicine Name:</Form.Label>
 
                   <Form.Control
                     type="text"
                     value={medicineName}
-                    onChange={(e) =>
-                      setMedicineName(
-                        e.target.value
-                      )
-                    }
-                    isInvalid={
-                      !!errors.medicineName
-                    }
+                    onChange={(e) => setMedicineName(e.target.value)}
+                    isInvalid={!!errors.medicineName}
                   />
 
                   <Form.Control.Feedback type="invalid">
-                    {
-                      errors.medicineName
-                    }
+                    {errors.medicineName}
                   </Form.Control.Feedback>
                 </Form.Group>
               </div>
@@ -441,27 +349,17 @@ export const AddMedicine = () => {
 
               <div className="col-12 col-md-6">
                 <Form.Group className="mb-3">
-                  <Form.Label>
-                    Number of Pieces:
-                  </Form.Label>
+                  <Form.Label>Number of Pieces:</Form.Label>
 
                   <Form.Control
                     type="text"
                     value={numPieces}
-                    onChange={(e) =>
-                      setNumPieces(
-                        e.target.value
-                      )
-                    }
-                    isInvalid={
-                      !!errors.numPieces
-                    }
+                    onChange={(e) => setNumPieces(e.target.value)}
+                    isInvalid={!!errors.numPieces}
                   />
 
                   <Form.Control.Feedback type="invalid">
-                    {
-                      errors.numPieces
-                    }
+                    {errors.numPieces}
                   </Form.Control.Feedback>
                 </Form.Group>
               </div>
@@ -470,27 +368,17 @@ export const AddMedicine = () => {
 
               <div className="col-12 col-md-6">
                 <Form.Group className="mb-3">
-                  <Form.Label>
-                    Expire Date:
-                  </Form.Label>
+                  <Form.Label>Expire Date:</Form.Label>
 
                   <Form.Control
                     type="date"
                     value={expireDate}
-                    onChange={(e) =>
-                      setExpireDate(
-                        e.target.value
-                      )
-                    }
-                    isInvalid={
-                      !!errors.expireDate
-                    }
+                    onChange={(e) => setExpireDate(e.target.value)}
+                    isInvalid={!!errors.expireDate}
                   />
 
                   <Form.Control.Feedback type="invalid">
-                    {
-                      errors.expireDate
-                    }
+                    {errors.expireDate}
                   </Form.Control.Feedback>
                 </Form.Group>
               </div>
@@ -499,29 +387,17 @@ export const AddMedicine = () => {
 
               <div className="col-12 col-md-6">
                 <Form.Group className="mb-3">
-                  <Form.Label>
-                    Concentration:
-                  </Form.Label>
+                  <Form.Label>Concentration:</Form.Label>
 
                   <Form.Control
                     type="text"
-                    value={
-                      concentration
-                    }
-                    onChange={(e) =>
-                      setConcentration(
-                        e.target.value
-                      )
-                    }
-                    isInvalid={
-                      !!errors.concentration
-                    }
+                    value={concentration}
+                    onChange={(e) => setConcentration(e.target.value)}
+                    isInvalid={!!errors.concentration}
                   />
 
                   <Form.Control.Feedback type="invalid">
-                    {
-                      errors.concentration
-                    }
+                    {errors.concentration}
                   </Form.Control.Feedback>
                 </Form.Group>
               </div>
@@ -530,23 +406,15 @@ export const AddMedicine = () => {
 
               <div className="col-12">
                 <Form.Group className="mb-3">
-                  <Form.Label>
-                    Add Image:
-                  </Form.Label>
+                  <Form.Label>Add Image:</Form.Label>
 
                   <Form.Control
                     id="imageInput"
                     type="file"
                     accept="image/png, image/jpeg"
-                    onChange={
-                      handleUpload
-                    }
-                    isInvalid={
-                      !!errors.image
-                    }
-                    disabled={
-                      isUploading
-                    }
+                    onChange={handleUpload}
+                    isInvalid={!!errors.image}
+                    disabled={isUploading}
                   />
 
                   <Form.Control.Feedback type="invalid">
@@ -561,11 +429,7 @@ export const AddMedicine = () => {
             <div className="text-center d-flex justify-content-end w-25 ms-auto">
               <AddBtn
                 type="submit"
-                disabled={
-                  !img_path ||
-                  isUploading ||
-                  isDecoding
-                }
+                disabled={!img_path || isUploading || isDecoding}
               >
                 Add
               </AddBtn>
@@ -574,12 +438,8 @@ export const AddMedicine = () => {
         </Card>
 
         <div className="px-3 rounded text-gray">
-          <strong>
-            Note:
-          </strong>{" "}
-          Please ensure to complete
-          your profile before adding
-          medicine.
+          <strong>Note:</strong> Please ensure to complete your profile before
+          adding medicine.
         </div>
       </Container>
     </>
